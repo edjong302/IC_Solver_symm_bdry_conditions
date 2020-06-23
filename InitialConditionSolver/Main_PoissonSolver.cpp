@@ -230,11 +230,14 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
 
     } // end NL iteration loop
 
+    output_solver_data(dpsi, rhs, multigrid_vars, a_grids, a_params,
+                           max_NL_iter);
+
     pout() << "The norm of dpsi at the final step was " << dpsi_norm << endl;
 
     // Mayday if result not converged at all - using a fairly generous threshold
     // for this as usually non convergence means everything goes nuts
-    if (dpsi_norm > 1e3)
+    if (dpsi_norm > 1.e2)
     {
         MayDay::Error(
             "NL iterations did not converge - may need a better initial guess");

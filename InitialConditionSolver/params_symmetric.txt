@@ -13,14 +13,14 @@ alpha = 1.0
 beta  = -1.0
 
 # AMR grid params - grid length and number of cells by direction
-L = 100.0
-N = 40 40 40
+L = 50.0
+N = 20 20 20
 # number of AMR refinement levels is max_level + 1
 max_level    = 0
 # Threshold for AMR refinement, based on magnitude of rhs
 refine_threshold = 0.1
 #min box size
-block_factor = 8
+block_factor = 4
 #max box size
 max_grid_size = 16
 # how aggressively to regrid
@@ -57,7 +57,7 @@ bc_value = 0.0
 G_Newton = 1.0 
 
 # scalar field input params
-phi_amplitude = 0.1
+phi_amplitude = 0.001
 phi_wavelength = 1
 box_center = 0 0 0  # specifies what is referred to as the center of the box, with
                     # coordinates 0 0 0. Defaults to L/2, L/2, L/2
@@ -68,19 +68,19 @@ box_center = 0 0 0  # specifies what is referred to as the center of the box, wi
 # if you don't want BHs just set masses to zero
 
 #BH1
-bh1_bare_mass = 0.5
+bh1_bare_mass = 0.
 # spin about z axis (this is J_z)
-bh1_spin = 0.1
+bh1_spin = 0.
 # boost in y direction (this is P_y)
-bh1_momentum = 0.05
+bh1_momentum = 0.0
 # offset from center in x direction
 bh1_offset = 10.0
 
 #BH2
-bh2_bare_mass = 0.5
+bh2_bare_mass = 0.
 # spin about z axis (this is J_z)
-bh2_spin = 0.1
+bh2_spin = 0.
 # boost in y direction (this is P_y)
-bh2_momentum = -0.05
+bh2_momentum = -0.0
 # offset from center in x direction
 bh2_offset = -10.0
