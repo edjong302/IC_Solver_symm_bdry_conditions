@@ -3,6 +3,8 @@
 
 #include "BCFunc.cpp"
 
+// The function below is a near-identical copy of the Chombo function DiriBC,
+// see BCFunc.H
 void SymmBC(FArrayBox&      a_state,
             const Box&      a_valid,
             Real            a_dx,
@@ -78,6 +80,8 @@ void SymmBC(FArrayBox&      a_state,
   delete[] value;
 }
 
+// We need to overload the function so we can use the call in the function ParseBC,
+// exactly analogous to how it happens in Chombo
 void SymmBC(FArrayBox&      a_state,
             const Box&      a_valid,
             Real            a_dx,

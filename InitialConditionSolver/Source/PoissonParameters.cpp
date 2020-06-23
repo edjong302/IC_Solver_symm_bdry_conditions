@@ -76,6 +76,14 @@ void getPoissonParameters(PoissonParameters &a_params)
         a_params.nCells[idir] = nCellsArray[idir];
     }
 
+    std::vector<Real> centerArray(SpaceDim);
+    pp.getarr("box_center", centerArray, 0, SpaceDim);
+    for (int idir = 0; idir < SpaceDim; idir++)
+    {
+        a_params.box_center[idir] = centerArray[idir];
+        pout() << a_params.box_center[idir] << endl;;
+    }
+
     // Enforce that dx is same in every directions
     // and that ref_ratio = 2 always as these conditions
     // are required in several places in our code

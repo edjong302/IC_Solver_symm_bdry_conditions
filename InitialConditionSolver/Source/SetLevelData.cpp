@@ -29,6 +29,9 @@ inline void get_loc(RealVect &a_out_loc, const IntVect &a_iv,
     a_out_loc = a_iv + 0.5 * RealVect::Unit;
     a_out_loc *= a_dx;
     a_out_loc -= a_params.domainLength / 2.0;
+    RealVect shift = a_params.box_center - a_params.domainLength / 2.0;
+    a_out_loc -= shift;   // moves the center away from the
+                                        // middle of the box
 }
 
 // set initial guess value for the conformal factor psi
@@ -67,7 +70,11 @@ void set_initial_conditions(LevelData<FArrayBox> &a_multigrid_vars,
             // set the phi value - need the distance from centre
             RealVect loc;
             get_loc(loc, iv, a_dx, a_params);
-
+            // Real x = loc[0];
+            // Real y = loc[1];
+            // Real z = loc[2];
+            // Real rr = pow(pow(x, 2.) + pow(y, 2.) + pow(z, 2.), .5);
+            
             // set phi according to user defined function
             multigrid_vars_box(iv, c_phi_0) =
                 my_phi_function(loc, a_params.phi_amplitude,
