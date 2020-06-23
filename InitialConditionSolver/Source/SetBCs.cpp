@@ -65,7 +65,6 @@ void ParseBC(FArrayBox &a_state, const Box &a_valid,
 
         for (int i = 0; i < CH_SPACEDIM; ++i)
         {
-
             // periodic? If not, check if Dirichlet or Neumann
             if (!a_domain.isPeriodic(i))
             {
@@ -113,7 +112,7 @@ void ParseBC(FArrayBox &a_state, const Box &a_valid,
                         if (!GlobalBCRS::s_printedThatLo[i])
                         {
                             GlobalBCRS::s_printedThatLo[i] = true;
-                            pout() << "Constant Dirichlet bcs imposed for low "
+                            pout() << "Constant symmetric bcs imposed for low "
                                       "side direction "
                                    << i << endl;
                         }
@@ -167,7 +166,7 @@ void ParseBC(FArrayBox &a_state, const Box &a_valid,
                         if (!GlobalBCRS::s_printedThatHi[i])
                         {
                             GlobalBCRS::s_printedThatHi[i] = true;
-                            pout() << "Constant Dirichlet bcs imposed for high "
+                            pout() << "Constant symmetric bcs imposed for high "
                                       "side direction "
                                    << i << endl;
                         }
