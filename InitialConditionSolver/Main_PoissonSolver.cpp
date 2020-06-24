@@ -216,9 +216,10 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         // need to fill interlevel and intralevel ghosts first in dpsi
         for (int ilev = 0; ilev < nlevels; ilev++)
         {
-
+            check_symmetric(*dpsi[ilev], vectDomains[ilev], 0, NL_iter, ilev);
             // For interlevel ghosts
             if (ilev > 0)
+
             {
                 QuadCFInterp quadCFI(a_grids[ilev], &a_grids[ilev - 1],
                                      vectDx[ilev][0], a_params.refRatio[ilev],
@@ -235,7 +236,7 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
             set_update_psi0(*multigrid_vars[ilev], *dpsi[ilev],
                             exchange_copier);
 
-            check_symmetric(*multigrid_vars[ilev], NL_iter, vectDomains[ilev]);
+            //check_symmetric(*multigrid_vars[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev);
         }
 
         // check if converged or diverging and if so exit NL iteration for loop

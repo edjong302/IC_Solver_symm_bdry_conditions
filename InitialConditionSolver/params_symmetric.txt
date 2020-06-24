@@ -31,12 +31,12 @@ buffer_size  = 3
 numMGsmooth = 4 # number of GSRB smooths before and after MG coarsening
 #preCondSolverDepth = 1
 num_mg     = 1 
-numMGIterations = 1 #this is the number of MG v-cycles in the preconditioner
+numMGIterations = 2 #this is the number of MG v-cycles in the preconditioner
 max_iterations = 1 #max number of solver iterations
-max_NL_iterations = 2 #non linear outside loop iterations
+max_NL_iterations = 50 #non linear outside loop iterations
 tolerance  = 1.0e-10  #solver tolerance for declaring convergence
 hang       = 1.0e-11  #solver tolerance for deciding when we're hung
-verbosity = 2 # higher number means more verbose output
+verbosity = 3 # higher number means more verbose output
 
 # how to average face-centered coefficients to coarser multigrid levels
 #coefficient_average_type = arithmetic
@@ -57,7 +57,7 @@ bc_value = 0.0
 G_Newton = 1.0 
 
 # scalar field input params
-phi_amplitude = 0.001
+phi_amplitude = 1.e-5
 phi_wavelength = 1
 box_center = 0 0 0  # specifies what is referred to as the center of the box, with
                     # coordinates 0 0 0. Defaults to L/2, L/2, L/2

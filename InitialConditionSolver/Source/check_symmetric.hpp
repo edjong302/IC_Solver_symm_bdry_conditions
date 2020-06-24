@@ -5,8 +5,10 @@
 
 // For now this checks symmetry on the low boundaries
 void check_symmetric(LevelData<FArrayBox> &a_multigrid_vars, 
-                     int iter, 
-                     ProblemDomain &prob_domain
+                     ProblemDomain &prob_domain, 
+                     int comp, 
+                     int iter,
+                     int lev
                     )
 {
     // Loop over boxes
@@ -35,13 +37,13 @@ void check_symmetric(LevelData<FArrayBox> &a_multigrid_vars,
                     IntVect iv_ghost = iv;
                     iv_ghost[dir] -= 1; // set ghost cell
                     // evaluate psi at bdry and ghost cells
-                    Real psi_bdry = a_multigrid_vars_box(iv, c_psi_reg);
-                    Real psi_ghost = a_multigrid_vars_box(iv_ghost, c_psi_reg);
-                    Real diff = abs(psi_bdry - psi_ghost);
+                    Real psi_bdry = a_multigrid_vars_box(iv, comp);
+                    Real psi_ghost = a_multigrid_vars_box(iv_ghost, comp);
+                    Real diff = sqrt((psi_bdry - psi_ghost) * (psi_bdry - psi_ghost));
                     if (diff > 1.e-5) // compare values
                     {
-                        pout() <<   "At iter " << iter <<
-                                    " , at cell " << iv[0] << " " << iv[1] << " " << iv[2] << 
+                        pout() <<   "At iter " << iter << ", level " << lev <<
+                                    ", at cell " << iv[0] << " " << iv[1] << " " << iv[2] << 
                                     ", " << "psi_bdry = " << psi_bdry << 
                                     " and psi_ghost = " << psi_ghost << endl;
                     }
