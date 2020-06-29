@@ -130,6 +130,11 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
     int max_NL_iter = 4;
     pp.query("max_NL_iterations", max_NL_iter);
 
+    for (int ilev = 0; ilev < nlevels; ilev++)
+    {
+        //check_symmetric(*multigrid_vars[ilev], vectDomains[ilev], c_psi_reg, 0, ilev);
+    } 
+    
     // Iterate linearised Poisson eqn for NL solution
     Real dpsi_norm = 0.0;
     Real constant_K = 0.0;
@@ -154,7 +159,10 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
                                        a_params.coarsestDx, Interval(0, 0));
             Real volume = a_params.domainLength[0] * a_params.domainLength[1] *
                           a_params.domainLength[2];
+            pout() << "Integral is " << integral << endl;
+            pout() << "Volume is " << volume << endl;
             constant_K = -sqrt(abs(integral) / volume);
+            //constant_K = -abs(integral) / volume;
             pout() << "Constant average K value set to " << constant_K << endl;
         }
         else
@@ -171,7 +179,10 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
                                        a_params.coarsestDx, Interval(0, 0));
             Real volume = a_params.domainLength[0] * a_params.domainLength[1] *
                           a_params.domainLength[2];
+            pout() << "Integral is " << integral << endl;
+            pout() << "Volume is " << volume << endl;
             constant_K = -sqrt(abs(integral) / volume);
+            //constant_K = -abs(integral) / volume;
             pout() << "Constant average K value set to " << constant_K << endl;
         }
 
@@ -216,7 +227,7 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         // need to fill interlevel and intralevel ghosts first in dpsi
         for (int ilev = 0; ilev < nlevels; ilev++)
         {
-            check_symmetric(*dpsi[ilev], vectDomains[ilev], 0, NL_iter, ilev);
+            //check_symmetric(*dpsi[ilev], vectDomains[ilev], 0, NL_iter, ilev);
             // For interlevel ghosts
             if (ilev > 0)
 

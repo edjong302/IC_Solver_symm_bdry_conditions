@@ -231,6 +231,21 @@ void set_constant_K_integrand(LevelData<FArrayBox> &a_integrand,
                                    12.0 * M_PI * a_params.G_Newton *
                                        grad_phi_sq * pow(psi_0, -4.0) +
                                    12.0 * laplacian_of_psi * pow(psi_0, -5.0);
+            // if (phi_fab(iv, 0) < 1.e-7)
+            // {
+            //     pout() << iv[0] << " " << iv[1] << " " << iv[2];
+            //     pout() << endl;
+            // }
+            // if (a_params.periodic[0] == 1 && iv[0] == 25 && iv[1] == 25 && iv[2] == 25)
+            // {
+            //     pout() << "Phi at center is " << phi_fab(iv, 0) << endl;
+            //     pout() << "Integrand at center is " << integrand_box(iv, 0) << endl;
+            // }
+            // if (a_params.periodic[0] == 0 && iv[0] == 5 && iv[1] == 5 && iv[2] == 5)
+            // {
+            //     pout() << "Phi at center is " << phi_fab(iv, 0) << endl;
+            //     pout() << "Integrand at center is " << integrand_box(iv, 0) << endl;
+            // }
         }
     }
 } // end set_constant_K_integrand
