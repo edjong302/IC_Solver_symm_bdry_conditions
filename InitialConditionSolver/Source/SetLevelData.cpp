@@ -309,7 +309,7 @@ void set_update_psi0(LevelData<FArrayBox> &a_multigrid_vars,
 
     // first exchange ghost cells for dpsi so they are filled with the correct
     // values
-    a_dpsi.exchange(a_dpsi.interval(), a_exchange_copier);
+    //a_dpsi.exchange(a_dpsi.interval(), a_exchange_copier);
 
     DataIterator dit = a_multigrid_vars.dataIterator();
     for (dit.begin(); dit.ok(); ++dit)

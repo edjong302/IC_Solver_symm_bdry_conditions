@@ -145,8 +145,8 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
                << max_NL_iter << endl;
 
         // Set integrability condition on K if periodic
-        if (a_params.periodic[0] == 1)
-        {
+        //if (a_params.periodic[0] == 1)
+        //{
             // Calculate values for integrand here with K unset
             pout() << "Computing average K value... " << endl;
             for (int ilev = 0; ilev < nlevels; ilev++)
@@ -164,27 +164,7 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
             constant_K = -sqrt(abs(integral) / volume);
             //constant_K = -abs(integral) / volume;
             pout() << "Constant average K value set to " << constant_K << endl;
-        }
-        else
-        {
-            // Calculate values for integrand here with K unset
-            pout() << "Computing average K value... " << endl;
-            for (int ilev = 0; ilev < nlevels; ilev++)
-            {
-                set_constant_K_integrand(*integrand[ilev],
-                                         *multigrid_vars[ilev], vectDx[ilev],
-                                         a_params);
-            }
-            Real integral = computeSum(integrand, a_params.refRatio,
-                                       a_params.coarsestDx, Interval(0, 0));
-            Real volume = a_params.domainLength[0] * a_params.domainLength[1] *
-                          a_params.domainLength[2];
-            pout() << "Integral is " << integral << endl;
-            pout() << "Volume is " << volume << endl;
-            constant_K = -sqrt(abs(integral) / volume);
-            //constant_K = -abs(integral) / volume;
-            pout() << "Constant average K value set to " << constant_K << endl;
-        }
+        //}
 
         // Calculate values for coefficients here - see SetLevelData.cpp
         // for details
@@ -192,6 +172,7 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         {
             set_a_coef(*aCoef[ilev], *multigrid_vars[ilev], a_params,
                        vectDx[ilev], constant_K);
+            //check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, 0, ilev);
             set_b_coef(*bCoef[ilev], a_params, vectDx[ilev]);
             set_rhs(*rhs[ilev], *multigrid_vars[ilev], vectDx[ilev], a_params,
                     constant_K);
@@ -227,7 +208,6 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         // need to fill interlevel and intralevel ghosts first in dpsi
         for (int ilev = 0; ilev < nlevels; ilev++)
         {
-            //check_symmetric(*dpsi[ilev], vectDomains[ilev], 0, NL_iter, ilev);
             // For interlevel ghosts
             if (ilev > 0)
 
@@ -244,10 +224,12 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
             exchange_copier.exchangeDefine(a_grids[ilev], ghosts);
 
             // now the update
+            dpsi[ilev]->exchange(dpsi[ilev]->interval(), exchange_copier);
+            enforce_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, 0, ilev, a_params);
+            //check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params);
             set_update_psi0(*multigrid_vars[ilev], *dpsi[ilev],
                             exchange_copier);
-
-            //check_symmetric(*multigrid_vars[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev);
+            check_symmetric(*multigrid_vars[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params); 
         }
 
         // check if converged or diverging and if so exit NL iteration for loop
