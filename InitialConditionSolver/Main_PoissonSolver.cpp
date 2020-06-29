@@ -177,6 +177,9 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
             set_rhs(*rhs[ilev], *multigrid_vars[ilev], vectDx[ilev], a_params,
                     constant_K);
         }
+        Real rhs_integral = computeSum(rhs, a_params.refRatio,
+                                       a_params.coarsestDx, Interval(0, 0));
+        pout() << "The RHS integral is " << rhs_integral << endl;
 
         // set up solver factory
         RefCountedPtr<AMRLevelOpFactory<LevelData<FArrayBox>>> opFactory =

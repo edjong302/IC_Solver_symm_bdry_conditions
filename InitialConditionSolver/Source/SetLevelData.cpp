@@ -173,10 +173,7 @@ void set_rhs(LevelData<FArrayBox> &a_rhs,
             Real psi_bl = get_psi_brill_lindquist(loc, a_params);
             Real psi_0 = multigrid_vars_box(iv, c_psi_reg) + psi_bl;
 
-            rhs_box(iv, 0) = 0.125 * m * pow(psi_0, 5.0) -
-                             0.125 * A2 * pow(psi_0, -7.0) -
-                             M_PI * a_params.G_Newton * grad_phi_sq * psi_0 -
-                             laplacian_of_psi;
+            rhs_box(iv, 0) = 0.125 * m * pow(psi_0, 5.0) - 0.125 * A2 * pow(psi_0, -7.0) - M_PI * a_params.G_Newton * grad_phi_sq * psi_0 - laplacian_of_psi;
         }
     }
 } // end set_rhs

@@ -63,6 +63,7 @@ void output_solver_data(const Vector<LevelData<FArrayBox> *> &a_dpsi,
 
     char suffix[30];
     sprintf(suffix, "_%d.hdf5", iter);
+    if (a_params.periodic[0] == 0){sprintf(suffix, "_symm_%d.hdf5", iter);}
     fileName += suffix;
 
     int ndpsiComp = a_dpsi[0]->nComp();
