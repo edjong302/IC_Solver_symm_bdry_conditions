@@ -63,8 +63,7 @@ extern void set_b_coef(LevelData<FArrayBox> &a_bCoef,
                        const PoissonParameters &a_params, const RealVect &a_dx);
 
 extern void set_update_psi0(LevelData<FArrayBox> &a_multigrid_vars,
-                            LevelData<FArrayBox> &a_dpsi,
-                            const Copier &a_exchange_copier);
+                            LevelData<FArrayBox> &a_dpsi);
 
 extern void set_output_data(LevelData<FArrayBox> &a_vars,
                             LevelData<FArrayBox> &a_multigrid_vars,

@@ -304,8 +304,7 @@ void set_regrid_condition(LevelData<FArrayBox> &a_condition,
 
 // Add the correction to psi0 after the solver operates
 void set_update_psi0(LevelData<FArrayBox> &a_multigrid_vars,
-                     LevelData<FArrayBox> &a_dpsi,
-                     const Copier &a_exchange_copier)
+                     LevelData<FArrayBox> &a_dpsi)
 {
 
     // first exchange ghost cells for dpsi so they are filled with the correct
@@ -319,6 +318,10 @@ void set_update_psi0(LevelData<FArrayBox> &a_multigrid_vars,
         FArrayBox &dpsi_box = a_dpsi[dit()];
 
         Box this_box = multigrid_vars_box.box();
+        IntVect smallend = this_box.smallEnd();
+        IntVect bigend = this_box.bigEnd();
+        pout() << "this box' small end: " << smallend[0] << " " << smallend[1] << " " << smallend[2] << endl;
+        pout() << "this box' big end: " << bigend[0] << " " << bigend[1] << " " << bigend[2] << endl;
         BoxIterator bit(this_box);
         for (bit.begin(); bit.ok(); ++bit)
         {

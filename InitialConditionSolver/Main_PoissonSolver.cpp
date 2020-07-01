@@ -230,8 +230,6 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         // need to fill interlevel and intralevel ghosts first in dpsi
         for (int ilev = 0; ilev < nlevels; ilev++)
         {
-            enforce_var_symmetric(*dpsi[ilev], 0, vectDomains[ilev], a_params, ilev);
-            check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params); 
             // For interlevel ghosts
             if (ilev > 0)
 
@@ -246,13 +244,15 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
             // but need the exchange copier object to do this
             Copier exchange_copier;
             exchange_copier.exchangeDefine(a_grids[ilev], ghosts);
-
+            
             // now the update
             dpsi[ilev]->exchange(dpsi[ilev]->interval(), exchange_copier);
-            //enforce_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, 0, ilev, a_params);
-            //check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params);
-            set_update_psi0(*multigrid_vars[ilev], *dpsi[ilev],
-                            exchange_copier);
+            enforce_var_symmetric(*dpsi[ilev], 0, vectDomains[ilev], a_params, ilev);
+            
+            check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params);
+            set_update_psi0(*multigrid_vars[ilev], *dpsi[ilev]); 
+            check_symmetric(*multigrid_vars[ilev], vectDomains[ilev], c_phi_0, NL_iter, ilev, a_params);
+                       
         }
 
         // check if converged or diverging and if so exit NL iteration for loop
