@@ -120,6 +120,7 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
             enforce_var_symmetric(*multigrid_vars[ilev], c_phi_0, vectDomains[ilev], a_params, ilev);
         }
         }
+        //check_symmetric(*multigrid_vars[ilev], vectDomains[ilev], c_phi_0, 0, ilev, a_params);
     }
 
     // set up linear operator
@@ -149,11 +150,6 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
 
     int max_NL_iter = 4;
     pp.query("max_NL_iterations", max_NL_iter);
-
-    for (int ilev = 0; ilev < nlevels; ilev++)
-    {
-        //check_symmetric(*multigrid_vars[ilev], vectDomains[ilev], c_psi_reg, 0, ilev);
-    } 
     
     // Iterate linearised Poisson eqn for NL solution
     Real dpsi_norm = 0.0;
@@ -192,7 +188,6 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         {
             set_a_coef(*aCoef[ilev], *multigrid_vars[ilev], a_params,
                        vectDx[ilev], constant_K);
-            //check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, 0, ilev);
             set_b_coef(*bCoef[ilev], a_params, vectDx[ilev]);
             set_rhs(*rhs[ilev], *multigrid_vars[ilev], vectDx[ilev], a_params,
                     constant_K);
@@ -235,6 +230,8 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         // need to fill interlevel and intralevel ghosts first in dpsi
         for (int ilev = 0; ilev < nlevels; ilev++)
         {
+            enforce_var_symmetric(*dpsi[ilev], 0, vectDomains[ilev], a_params, ilev);
+            check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params); 
             // For interlevel ghosts
             if (ilev > 0)
 
@@ -256,7 +253,6 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
             //check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params);
             set_update_psi0(*multigrid_vars[ilev], *dpsi[ilev],
                             exchange_copier);
-            check_symmetric(*multigrid_vars[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params); 
         }
 
         // check if converged or diverging and if so exit NL iteration for loop
