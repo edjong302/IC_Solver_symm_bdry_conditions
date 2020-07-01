@@ -1,0 +1,29 @@
+Changed directory to /rds/project/dirac_vol5/rds-dirac-dp002/dc-dejo1/IC_Solver_symm_bdry_conditions/InitialConditionSolver.
+
+JobID: 25557293
+======
+Time: Tue 30 Jun 14:59:09 BST 2020
+Running on master node: knl-e-306
+Current directory: /rds/project/dirac_vol5/rds-dirac-dp002/dc-dejo1/IC_Solver_symm_bdry_conditions/InitialConditionSolver
+
+Nodes allocated:
+================
+knl-e-306
+
+numtasks=32, numnodes=1, mpi_tasks_per_node=32 (OMP_NUM_THREADS=2)
+
+Executing command:
+==================
+mpirun -ppn 32 -np 32 ./Main_PoissonSolver3d.Linux.64.mpiicpc.ifort.OPT.MPI.OPENMPCC.KNL.Intel.ex params_symmetric.txt
+
+
+===================================================================================
+=   BAD TERMINATION OF ONE OF YOUR APPLICATION PROCESSES
+=   PID 43633 RUNNING AT knl-e-306
+=   EXIT CODE: 6
+=   CLEANING UP REMAINING PROCESSES
+=   YOU CAN IGNORE THE BELOW CLEANUP MESSAGES
+===================================================================================
+   Intel(R) MPI Library troubleshooting guide:
+      https://software.intel.com/node/561764
+===================================================================================

@@ -100,6 +100,12 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         // prepare temp dx, domain vars for next level
         dxLev /= a_params.refRatio[ilev];
         domLev.refine(a_params.refRatio[ilev]);
+
+        // Symmetric boundary condition business
+        ParmParse pp;
+        std::vector<int> lo_bdries, hi_bdries;
+        pp.getarr("bc_lo", lo_bdries, 0, SpaceDim);
+        pp.getarr("bc_hi", hi_bdries, 0, SpaceDim);
     }
 
     // set up linear operator
@@ -179,6 +185,10 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         }
         Real rhs_integral = computeSum(rhs, a_params.refRatio,
                                        a_params.coarsestDx, Interval(0, 0));
+        if (a_params.periodic[0] == 0)
+        {
+            rhs_integral *= 8;
+        }
         pout() << "The RHS integral is " << rhs_integral << endl;
 
         // set up solver factory
