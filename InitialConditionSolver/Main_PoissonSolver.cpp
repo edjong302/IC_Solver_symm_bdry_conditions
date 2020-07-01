@@ -102,10 +102,24 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
         domLev.refine(a_params.refRatio[ilev]);
 
         // Symmetric boundary condition business
+        if (a_params.periodic[0] == 0)
+        {
         ParmParse pp;
         std::vector<int> lo_bdries, hi_bdries;
         pp.getarr("bc_lo", lo_bdries, 0, SpaceDim);
         pp.getarr("bc_hi", hi_bdries, 0, SpaceDim);
+        bool have_to_enforce = false;
+        for (int dir = 0; dir < SpaceDim; dir++)
+        {
+            if (lo_bdries[dir] == 3) {have_to_enforce = true;}
+            if (hi_bdries[dir] == 3) {have_to_enforce = true;}
+        }
+        if (have_to_enforce == true)
+        {
+            //for (int comp = 0; comp < NUM_MULTIGRID_VARS; comp++)
+            enforce_var_symmetric(*multigrid_vars[ilev], c_phi_0, vectDomains[ilev], a_params, ilev);
+        }
+        }
     }
 
     // set up linear operator
@@ -238,7 +252,7 @@ int poissonSolve(const Vector<DisjointBoxLayout> &a_grids,
 
             // now the update
             dpsi[ilev]->exchange(dpsi[ilev]->interval(), exchange_copier);
-            enforce_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, 0, ilev, a_params);
+            //enforce_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, 0, ilev, a_params);
             //check_symmetric(*dpsi[ilev], vectDomains[ilev], c_psi_reg, NL_iter, ilev, a_params);
             set_update_psi0(*multigrid_vars[ilev], *dpsi[ilev],
                             exchange_copier);
